@@ -1,0 +1,9 @@
+.candidate-dashboard .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .candidate-dashboard h2 {
+    margin-bottom: 20px;
+  }
+  

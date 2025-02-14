@@ -1,0 +1,47 @@
+.navbar-container {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  height: 70px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: 610px;
+  margin-left: 100px;
+}
+
+.logo img {
+  height: 50px; 
+  width: auto;
+  cursor: pointer;
+}
+
+.navbar {
+  background-color: white !important;
+  border: none;
+  flex-grow: 1;
+}
+
+.navbar .ant-menu {
+  display: flex;
+  justify-content: flex-start; 
+  gap: 15px; 
+}
+
+.navbar .ant-menu-item {
+  color: black !important;
+  font-weight: bold;
+}
+
+.navbar .ant-menu-item a {
+  text-decoration: none;
+  color: black !important;
+}
+
+.navbar .ant-menu-item a:hover {
+  color: #0073e6 !important;
+}

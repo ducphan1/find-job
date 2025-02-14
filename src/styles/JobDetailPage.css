@@ -1,0 +1,26 @@
+.job-detail-page .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 15px;
+  }
+  .job-detail-page h2 {
+    margin-bottom: 20px;
+  }
+  .job-detail-page p {
+    margin: 10px 0;
+  }
+  .job-description {
+    margin: 20px 0;
+  }
+  .btn-apply {
+    padding: 10px 20px;
+    background: #52c41a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .btn-apply:hover {
+    background: #389e0d;
+  }
+  

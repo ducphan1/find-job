@@ -1,0 +1,10 @@
+.candidate-layout {
+    display: flex;
+    min-height: 100vh;
+  }
+  .candidate-layout .candidate-content {
+    flex: 1;
+    padding: 20px;
+    background: #ffffff;
+  }
+  

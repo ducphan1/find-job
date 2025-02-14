@@ -1,0 +1,39 @@
+
+.topbar {
+  background-color: #0073e6; 
+  padding: 10px 20px;
+  color: white;
+  font-size: 14px;
+}
+
+.topbar-item {
+  margin-right: 15px;
+  color: white;
+}
+
+.topbar-item .icon {
+  margin-right: 5px;
+}
+
+.topbar-item a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.topbar-item a:hover {
+  color: #ffcc00; 
+}
+
+.recruiter-btn {
+  background-color: #ff6600; 
+  color: white;
+  border: none;
+  font-weight: bold;
+  margin-left: 10px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.recruiter-btn:hover {
+  background-color: #e65c00; 
+}
