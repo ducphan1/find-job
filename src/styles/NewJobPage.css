@@ -1,0 +1,193 @@
+/* ======== Wrapper override cho trang NewJob ======== */
+.newjob-wrapper .site-footer {
+    background-color: #0056a6 !important; /* Màu xanh đậm */
+    color: #fff !important;
+    padding: 40px 10% !important;
+    font-size: 14px !important;
+    margin-top: 100px;
+  }
+  
+  .newjob-wrapper .footer-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: auto !important; /* Gỡ width cố định 1440px */
+    max-width: 1200px; /* Hoặc tùy chỉnh */
+    margin: 0 auto; /* Căn giữa */
+  }
+  
+  .newjob-wrapper .footer-section h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .newjob-wrapper .footer-section ul li a:hover {
+    color: #ffcc00;
+  }
+  
+  /* Icon mạng xã hội */
+  .newjob-wrapper .social-icons a:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Footer bottom */
+  .newjob-wrapper .footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .newjob-wrapper .footer-bottom p {
+    margin: 5px 0;
+  }
+  
+  .newjob-wrapper .footer-bottom a:hover {
+    color: #ffcc00;
+  }
+  
+  .newjob-content {
+    display: flex;
+    gap: 20px;
+    /* max-width, margin auto,... tuỳ ý */
+  }
+  
+  /* Cột trái (job-list) chiếm hết không gian còn lại */
+.job-list-container {
+  flex: 1;
+  /* width: 100%;  tuỳ chỉnh */
+}
+
+/* .sidebar-filter (cột phải) */
+.sidebar-filter {
+  width: 280px;              /* Chiều rộng cố định */
+  background-color: #fff;    
+  padding: 20px;
+  border-radius: 6px;        
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 180px;
+  max-height: 600px;
+}
+
+/* Tiêu đề chính: BỘ LỌC NÂNG CAO */
+.sidebar-filter h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+/* Tiêu đề nhỏ (Lọc theo mức lương, thời gian, trình độ...) */
+.sidebar-filter h4 {
+  margin-top: 15px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+
+/* Tạo khoảng cách giữa các nhóm filter */
+.sidebar-filter > div {
+  margin-bottom: 20px;
+}
+
+/* Checkbox/radio + text cùng dòng, canh giữa */
+.sidebar-filter .ant-checkbox-wrapper,
+.sidebar-filter .ant-radio-wrapper {
+  display: flex;      
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Khi checkbox/radio check => màu xanh */
+.sidebar-filter .ant-checkbox-checked .ant-checkbox-inner,
+.sidebar-filter .ant-radio-checked .ant-radio-inner {
+  border-color: #0073b1;
+  background-color: #0073b1;
+}
+
+/* Hover => viền xanh */
+.sidebar-filter .ant-checkbox:hover .ant-checkbox-inner,
+.sidebar-filter .ant-radio:hover .ant-radio-inner {
+  border-color: #0073b1;
+}
+
+/* label text */
+.sidebar-filter .ant-checkbox-wrapper span,
+.sidebar-filter .ant-radio-wrapper span {
+  margin-left: 6px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Vùng chứa pagination + text "Trang x/y" */
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 50px;
+  margin-left: 500px;
+}
+
+/* Dòng "Trang x/y" */
+.pagination-container p {
+  margin: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Tuỳ chỉnh Ant Design Pagination */
+.pagination-container .ant-pagination {
+  margin: 0 auto;
+}
+
+/* Mỗi nút trang */
+.pagination-container .ant-pagination-item {
+  border-radius: 4px;         /* Bo góc */
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* Số trang bên trong */
+.pagination-container .ant-pagination-item a {
+  color: #333;
+  transition: color 0.3s;
+}
+
+/* Hover trên nút */
+.pagination-container .ant-pagination-item:hover a {
+  color: #0073b1;             /* Màu xanh khi hover */
+}
+
+/* Nút trang đang active */
+.pagination-container .ant-pagination-item-active {
+  background: #0073b1;        /* Nền xanh */
+  border-color: #0073b1;      /* Viền xanh */
+}
+
+/* Chữ trang active */
+.pagination-container .ant-pagination-item-active a {
+  color: #fff !important;     /* Chữ trắng */
+}
+
+/* Hover trên nút active */
+.pagination-container .ant-pagination-item-active:hover a {
+  color: #fff !important;     /* Giữ trắng khi hover */
+}
+
+/* Mũi tên < > */
+.pagination-container .ant-pagination-prev .ant-pagination-item-link,
+.pagination-container .ant-pagination-next .ant-pagination-item-link {
+  border-radius: 4px;         /* Bo góc cho nút < > */
+}
+
+/* Hover mũi tên < > */
+.pagination-container .ant-pagination-prev:hover .ant-pagination-item-link,
+.pagination-container .ant-pagination-next:hover .ant-pagination-item-link {
+  border-color: #0073b1;
+  color: #0073b1;
+}

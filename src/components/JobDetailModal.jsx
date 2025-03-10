@@ -1,212 +1,447 @@
-import React, { useState } from "react";
-import { Modal, Row, Col, Card, Button, Divider } from "antd";
+import React, { useEffect, useState, useCallback } from "react";
+import { Modal, Row, Col, Card, Button, Divider, message } from "antd";
 import {
   MoneyCollectOutlined,
   CalendarOutlined,
   EnvironmentOutlined,
   GlobalOutlined,
-  PhoneOutlined,
   TeamOutlined,
   ClusterOutlined,
+  UserOutlined,
+  PhoneOutlined,
+  MailOutlined,
+  SolutionOutlined,
+  ProfileOutlined,
+  IdcardOutlined,
+  ShopOutlined,
+  ClockCircleOutlined,
+  EyeOutlined,
 } from "@ant-design/icons";
+import parse from "html-react-parser";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import moment from "moment";
 import "../styles/JobDetailModal.css";
 
-const JobDetailModal = ({ visible, onCancel, job, company }) => {
-  const [selectedJob, setSelectedJob] = useState(job);
+const getSalaryLabel = (salaryNum) => {
+  if (!salaryNum || salaryNum < 0) return "Thỏa thuận";
+  if (salaryNum <= 5000000) return "Dưới 5 triệu";
+  if (salaryNum <= 10000000) return "5 - 10 triệu";
+  if (salaryNum <= 12000000) return "10 - 12 triệu";
+  if (salaryNum <= 15000000) return "12 - 15 triệu";
+  if (salaryNum >= 20000000) return "Trên 15 triệu";
+  return "Thỏa thuận";
+};
 
-  if (!selectedJob || !company) return null;
+const cleanHtml = (html) => {
+  if (!html) return "Chưa cập nhật";
+  return html
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+};
 
-  const otherJobs =
-    company.jobs?.filter((j) => j.title !== selectedJob.title) || [];
+const selectAuth = createSelector(
+  (state) => state.auth,
+  (auth) => auth || {}
+);
+
+const JobDetailModal = ({ visible, onCancel, setOpenModal, initialJob }) => {
+  const { user, isAuthenticated } = useSelector(selectAuth);
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [relatedJobs, setRelatedJobs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [socket, setSocket] = useState(null); // Thêm state cho WebSocket
+
+  // Khởi tạo WebSocket khi component mount
+  useEffect(() => {
+    if (!isAuthenticated || !user) return;
+
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const ws = new WebSocket(`ws://localhost:5000?token=${token}`);
+    setSocket(ws);
+
+    ws.onopen = () => {
+      console.log("WebSocket connected");
+    };
+
+    ws.onmessage = (event) => {
+      const notification = JSON.parse(event.data);
+      console.log("Received WebSocket notification:", notification);
+      // Hiển thị thông báo bằng antd message
+      if (notification.type === "application_accepted") {
+        message.success(notification.message);
+      } else if (notification.type === "application_rejected") {
+        message.error(notification.message);
+      } else {
+        message.info(notification.message);
+      }
+    };
+
+    ws.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket disconnected");
+    };
+
+    // Cleanup khi component unmount
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    console.log("Giá trị initialJob nhận được:", initialJob);
+    if (visible && initialJob && initialJob.company) {
+      console.log("Cập nhật selectedJob và selectedCompany từ initialJob...");
+      setSelectedJob(initialJob);
+      setSelectedCompany(initialJob.company);
+    } else if (!visible) {
+      console.log("Modal đóng, reset selectedJob và selectedCompany...");
+      setSelectedJob(null);
+      setSelectedCompany(null);
+    }
+  }, [initialJob, visible]);
+
+  const openModal = useCallback((job, company) => {
+    console.log("Mở modal với job:", job);
+    setSelectedJob(job);
+    setSelectedCompany(company || job.company);
+  }, []);
+
+  useEffect(() => {
+    if (setOpenModal) {
+      setOpenModal(openModal);
+    }
+  }, [setOpenModal, openModal]);
+
+  useEffect(() => {
+    if (visible) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    }
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    };
+  }, [visible]);
+
+  useEffect(() => {
+    const fetchRelatedJobs = async () => {
+      if (!selectedCompany?._id || !visible) {
+        console.log(
+          "Không có company ID hoặc modal không hiển thị, bỏ qua fetch."
+        );
+        return;
+      }
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/jobs?companyId=${selectedCompany._id}`
+        );
+        console.log("Phản hồi công việc liên quan:", response.data);
+        const filteredJobs = response.data.filter(
+          (relatedJob) => relatedJob._id !== selectedJob._id
+        );
+        setRelatedJobs(filteredJobs);
+      } catch (error) {
+        console.error("Lỗi khi fetch công việc liên quan:", error.message);
+        message.error("Không thể tải danh sách công việc cùng công ty.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRelatedJobs();
+  }, [selectedCompany, selectedJob, visible]);
+
+  const handleViewDetail = (relatedJob) => {
+    console.log("Xem chi tiết công việc:", relatedJob);
+    setSelectedJob(relatedJob);
+    setSelectedCompany(relatedJob.company || selectedCompany);
+  };
+
+  const handleSaveJob = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      message.error("Bạn cần đăng nhập để lưu tin.");
+      return;
+    }
+    try {
+      await axios.post(
+        "http://localhost:5000/api/jobs/save",
+        { jobId: selectedJob._id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      message.success("Đã lưu công việc thành công!");
+      window.dispatchEvent(new Event("jobSaved"));
+    } catch (error) {
+      message.error(error.response?.data?.message || "Lưu công việc thất bại.");
+    }
+  };
+
+  const handleApply = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      message.error("Bạn cần đăng nhập để ứng tuyển.");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/application",
+        {
+          jobId: selectedJob._id,
+          cvId: null, // Có thể thêm logic chọn CV nếu cần
+          coverLetter: "", // Có thể thêm field nhập thư ứng tuyển
+          expectedSalary: selectedJob.salary || -1,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log("Response từ ứng tuyển:", response.data);
+      message.success("Ứng tuyển thành công!");
+      window.dispatchEvent(new Event("jobApplied"));
+    } catch (error) {
+      console.error("Error applying job:", error.response?.data || error);
+      const errorMsg = error.response?.data?.message || "Ứng tuyển thất bại.";
+      message.error(errorMsg);
+    }
+  };
+
+  if (!selectedJob || !selectedCompany) {
+    console.log("selectedJob hoặc selectedCompany là null:", {
+      selectedJob,
+      selectedCompany,
+    });
+    return (
+      <Modal open={visible} onCancel={onCancel} footer={null} width={1400}>
+        <p>Đang tải dữ liệu...</p>
+      </Modal>
+    );
+  }
+
+  const cleanLocation = cleanHtml(selectedJob.location);
+  const cleanContactName = cleanHtml(selectedJob.contact?.name);
+  const cleanContactPhone = cleanHtml(selectedJob.contact?.phone);
+  const cleanContactEmail = cleanHtml(selectedJob.contact?.email);
+  const cleanAddress = selectedJob.location || "Chưa cập nhật";
+  const displaySalary = getSalaryLabel(selectedJob.salary);
+  const verificationLabel =
+    selectedJob.status === "approved" ? "ĐÃ XÁC THỰC" : "CHƯA XÁC THỰC";
 
   return (
     <Modal
       open={visible}
       onCancel={onCancel}
       footer={null}
-      width={1000}
-      className="job-detail-modal"
+      width={1400}
+      className="job-detail-modal2"
+      style={{ top: 20 }}
     >
-      <div className="modal-header">
-        <h2>{selectedJob.title}</h2>
-      </div>
-
-      <div className="modal-body-content">
-        <Row gutter={16}>
+      <div className="job-header-section2">
+        <Row justify="space-between" align="middle">
           <Col xs={24} md={16}>
-            <div className="job-info">
-              <strong>{company.name}</strong> -{" "}
-              {company.address || "Chưa cập nhật địa chỉ"}
-            </div>
-            <div className="job-meta">
-              <MoneyCollectOutlined />
-              <span>
-                Mức lương: <strong>{selectedJob.salary || "Thoả thuận"}</strong>
-              </span>
-              <span>|</span>
-              <CalendarOutlined />
-              <span>
-                Hạn tuyển:{" "}
-                <strong>{selectedJob.deadline || "Chưa cập nhật"}</strong>
-              </span>
-              <span>|</span>
-              <EnvironmentOutlined />
-              <span>
-                Khu vực:{" "}
-                <strong>{selectedJob.location || "Chưa cập nhật"}</strong>
-              </span>
-            </div>
-
-            <Divider />
-            <h3>Mô tả công việc</h3>
-            <p>{selectedJob.description || "- Chưa cập nhật mô tả -"}</p>
-
-            <Divider />
-            <h3>Yêu cầu công việc</h3>
-            <p>{selectedJob.requirement || "- Chưa cập nhật yêu cầu -"}</p>
-
-            <Divider />
-            <h3>Quyền lợi & Chế độ</h3>
-            <p>{selectedJob.benefit || "- Chưa cập nhật quyền lợi -"}</p>
-
-            <Divider />
-            <h3>Yêu cầu hồ sơ</h3>
-            <p>{selectedJob.profile || "- Chưa cập nhật hồ sơ -"}</p>
+            <Row gutter={16} align="middle">
+              <Col flex="80px">
+                <img
+                  src={selectedCompany.logo || "/default-logo.png"}
+                  alt="Company Logo"
+                  className="company-logo2"
+                  onError={(e) => (e.target.src = "/default-logo.png")}
+                />
+              </Col>
+              <Col flex="auto">
+                <h2 className="job-title2">{selectedJob.title}</h2>
+                <div className="company-name2">{selectedCompany.name}</div>
+                <div className="company-address2">
+                  {selectedCompany.address || "Chưa cập nhật địa chỉ"}
+                </div>
+              </Col>
+            </Row>
           </Col>
-
-          <Col xs={24} md={8}>
-            <div className="company-actions-box">
-              <Button type="primary" block style={{ marginBottom: 8 }}>
+          <Col xs={24} md={8} className="header-actions-col2">
+            <div className="header-actions2">
+              <Button
+                type="primary"
+                className="apply-button2"
+                onClick={handleApply}
+              >
                 Nộp hồ sơ
               </Button>
-              <Button block style={{ marginBottom: 8 }}>
+              <Button className="save-button2" onClick={handleSaveJob}>
                 Lưu tin
               </Button>
-              <Button type="dashed" block>
-                Nhắn tin
-              </Button>
+              <div
+                className={`certified-stamp2 ${selectedJob.status !== "approved" ? "unverified2" : ""}`}
+              >
+                {verificationLabel}
+              </div>
             </div>
-
-            <Card
-              title="THÔNG TIN CÔNG TY"
-              style={{ marginBottom: 16, marginTop: 16 }}
-            >
-              <p>
-                <EnvironmentOutlined style={{ marginRight: 8 }} />
-                <strong>Địa chỉ:</strong> {company.address || "Chưa cập nhật"}
-              </p>
-              <p>
-                <GlobalOutlined style={{ marginRight: 8 }} />
-                <strong>Website:</strong> {company.website || "Chưa cập nhật"}
-              </p>
-              <p>
-                <TeamOutlined style={{ marginRight: 8 }} />
-                <strong>Quy mô:</strong> {company.size || "Chưa cập nhật"}
-              </p>
-              <p>
-                <ClusterOutlined style={{ marginRight: 8 }} />
-                <strong>Lĩnh vực:</strong> {company.industry || "Chưa cập nhật"}
-              </p>
-            </Card>
-
-            <Card title="VIỆC LÀM CÙNG CÔNG TY">
-              {otherJobs.length === 0 ? (
-                <p>Chưa có thêm việc làm khác.</p>
-              ) : (
-                <ul className="company-jobs-card">
-                  {otherJobs.map((oj, idx) => (
-                    <li key={idx}>
-                      <div className="job-title">
-                        <a href="#" onClick={() => setSelectedJob(oj)}>
-                          {oj.title}
-                        </a>
-                      </div>
-                      <div className="job-meta-details">
-                        <span>
-                          <CalendarOutlined style={{ marginRight: 4 }} />
-                          {oj.deadline || "Chưa cập nhật"}
-                        </span>
-                        <span>
-                          <MoneyCollectOutlined style={{ marginRight: 4 }} />
-                          {oj.salary || "Thoả thuận"}
-                        </span>
-                        <span>
-                          <EnvironmentOutlined style={{ marginRight: 4 }} />
-                          {oj.location || "Chưa cập nhật"}
-                        </span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Card>
           </Col>
         </Row>
       </div>
-
       <Divider />
-      <div className="modal-footer">
-        <div className="footer-section">
+      <div className="job-summary-section2">
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={12} md={8}>
+            <SolutionOutlined /> <strong>Kinh nghiệm:</strong>{" "}
+            {selectedJob.experience || "Chưa cập nhật"}
+          </Col>
+          <Col xs={24} sm={12} md={8}>
+            <IdcardOutlined /> <strong>Yêu cầu bằng cấp:</strong>{" "}
+            {selectedJob.education || "Chưa cập nhật"}
+          </Col>
+          <Col xs={24} sm={12} md={8}>
+            <TeamOutlined /> <strong>Số lượng cần tuyển:</strong>{" "}
+            {selectedJob.quantity || "Chưa cập nhật"}
+          </Col>
+          <Col xs={24} sm={12} md={8}>
+            <ClusterOutlined /> <strong>Ngành nghề:</strong>{" "}
+            {selectedJob.category || "Chưa cập nhật"}
+          </Col>
+          <Col xs={24} sm={12} md={8}>
+            <ProfileOutlined /> <strong>Chức vụ:</strong>{" "}
+            {selectedJob.position || "Chưa cập nhật"}
+          </Col>
+          <Col xs={24} sm={12} md={8}>
+            <ClockCircleOutlined /> <strong>Hình thức làm việc:</strong>{" "}
+            {selectedJob.workTime || "Chưa cập nhật"}
+          </Col>
+          <Col xs={24} sm={12} md={8}>
+            <EnvironmentOutlined /> <strong>Địa điểm làm việc:</strong>{" "}
+            {cleanLocation}
+          </Col>
+          <Col xs={24} sm={12} md={8}>
+            <CalendarOutlined /> <strong>Hạn nộp hồ sơ:</strong>{" "}
+            {selectedJob.deadline
+              ? moment(selectedJob.deadline, "DD-MM-YYYY").format("DD-MM-YYYY")
+              : "Chưa cập nhật"}
+          </Col>
+          <Col xs={24} sm={12} md={8}>
+            <MoneyCollectOutlined /> <strong>Mức lương:</strong> {displaySalary}
+          </Col>
+        </Row>
+      </div>
+      <Divider />
+      <Row gutter={24}>
+        <Col xs={24} md={16}>
+          <h3>Mô tả công việc</h3>
+          <div>{parse(selectedJob.description || "Chưa cập nhật")}</div>
+          <Divider />
+          <h3>Yêu cầu công việc</h3>
+          <div>{parse(selectedJob.requirement || "Chưa cập nhật")}</div>
+          <Divider />
+          <h3>Quyền lợi & Chế độ</h3>
+          <div>{parse(selectedJob.benefit || "Chưa cập nhật")}</div>
+          <Divider />
+          <h3>Yêu cầu hồ sơ</h3>
+          <div>{parse(selectedJob.profile || "Chưa cập nhật")}</div>
+          <Divider />
           <h3>Thông tin liên hệ</h3>
           <p>
-            <strong>Người liên hệ:</strong>{" "}
-            {selectedJob.contact?.name || "Phòng Nhân Sự"}
+            <UserOutlined /> <strong>Tên người liên hệ:</strong>{" "}
+            {cleanContactName}
           </p>
           <p>
-            <strong>Địa chỉ:</strong> {company.address || "Chưa cập nhật"}
+            <PhoneOutlined /> <strong>Số điện thoại:</strong>{" "}
+            {cleanContactPhone}
           </p>
           <p>
-            <strong>Số điện thoại:</strong>{" "}
-            {selectedJob.contact?.phone || company.phone || "Chưa cập nhật"}
+            <ShopOutlined /> <strong>Địa chỉ:</strong> {parse(cleanAddress)}
           </p>
-        </div>
-
-        <Divider />
-
-        <div className="footer-section">
-          <h3>Cách nộp hồ sơ</h3>
-          <div className="step1">
-            <span className="step-title">Bước 1:</span> Nộp hồ sơ qua email:
-            <Button type="primary" style={{ marginLeft: 8 }}>
-              Nộp hồ sơ
-            </Button>
-          </div>
-          <p className="step-guide">
-            Bấm vào nút <strong>“NỘP HỒ SƠ”</strong> để gửi hồ sơ đến nhà tuyển
-            dụng
+          <p>
+            <MailOutlined /> <strong>Email:</strong> {cleanContactEmail}
           </p>
-        </div>
-
-        <Divider />
-
-        <div className="footer-section deadline-report">
-          <div className="deadline">
-            <strong>Hạn nộp:</strong>{" "}
-            <span className="deadline-date">
-              {selectedJob.deadline || "Chưa cập nhật"}
-            </span>
-          </div>
-          <div className="report">
-            <a href="#" className="report-link">
-              Báo cáo
-            </a>
-          </div>
-        </div>
-
-        <Divider />
-
-        <div className="footer-section1 related-jobs">
-          <h3>XEM THÊM TIN LIÊN QUAN</h3>
-          <ul>
-            <li>
-              <a href="#">Việc làm quản lý xây dựng</a>
-            </li>
-            <li>
-              <a href="#">Tuyển dụng tại Cần Thơ</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+        </Col>
+        <Col xs={24} md={8}>
+          <Card title="THÔNG TIN CÔNG TY" className="company-info-card2">
+            <p>
+              <EnvironmentOutlined /> <strong>Địa chỉ:</strong>{" "}
+              {selectedCompany.address || "Chưa cập nhật"}
+            </p>
+            <p>
+              <GlobalOutlined /> <strong>Website:</strong>{" "}
+              {selectedCompany.website || "Chưa cập nhật"}
+            </p>
+            <p>
+              <PhoneOutlined /> <strong>Điện thoại:</strong>{" "}
+              {selectedCompany.phone || "Chưa cập nhật"}
+            </p>
+            <p>
+              <ClusterOutlined /> <strong>Lĩnh vực:</strong>{" "}
+              {selectedCompany.industry || "Chưa cập nhật"}
+            </p>
+            {selectedCompany.map && (
+              <div className="map-wrapper2">
+                <iframe
+                  title="map"
+                  width="100%"
+                  height="200"
+                  style={{ border: 0 }}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(selectedCompany.map)}&output=embed`}
+                  allowFullScreen
+                ></iframe>
+                <a
+                  href={`https://www.google.com/maps?q=${encodeURIComponent(selectedCompany.map)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="map-link2"
+                >
+                  Xem bản đồ lớn hơn
+                </a>
+              </div>
+            )}
+          </Card>
+          <Card title="VIỆC LÀM CÓ LIÊN QUAN" className="company-info-card2">
+            {loading ? (
+              <p>Đang tải...</p>
+            ) : relatedJobs.length > 0 ? (
+              relatedJobs.map((relatedJob) => (
+                <div key={relatedJob._id} className="related-job-item2">
+                  <div className="related-job-info2">
+                    <h4>{relatedJob.title}</h4>
+                    <p>
+                      <EnvironmentOutlined />{" "}
+                      {cleanHtml(relatedJob.location) || "Chưa cập nhật"}
+                    </p>
+                    <p>
+                      <MoneyCollectOutlined />{" "}
+                      {getSalaryLabel(relatedJob.salary)}
+                    </p>
+                  </div>
+                  <Button
+                    type="link"
+                    onClick={() => handleViewDetail(relatedJob)}
+                    className="view-detail-button2"
+                  >
+                    <EyeOutlined /> Xem chi tiết
+                  </Button>
+                </div>
+              ))
+            ) : (
+              <p>Không có công việc nào khác từ công ty này.</p>
+            )}
+          </Card>
+        </Col>
+      </Row>
     </Modal>
   );
 };

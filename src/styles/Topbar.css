@@ -1,20 +1,23 @@
-
+/* Vùng topbar */
 .topbar {
-  background-color: #0073e6; 
+  background-color: #0073e6; /* Màu nền xanh */
   padding: 10px 20px;
   color: white;
   font-size: 14px;
 }
 
+/* Mỗi item (text, icon, link) trong topbar */
 .topbar-item {
   margin-right: 15px;
   color: white;
 }
 
+/* Icon trong topbar */
 .topbar-item .icon {
   margin-right: 5px;
 }
 
+/* Link trong topbar => hover chuyển màu vàng */
 .topbar-item a {
   color: white;
   text-decoration: none;
@@ -25,15 +28,3 @@
   color: #ffcc00; 
 }
 
-.recruiter-btn {
-  background-color: #ff6600; 
-  color: white;
-  border: none;
-  font-weight: bold;
-  margin-left: 10px;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.recruiter-btn:hover {
-  background-color: #e65c00; 
-}

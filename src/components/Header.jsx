@@ -1,14 +1,14 @@
 import React from "react";
 import Topbar from "./Topbar";
-import Navbar from "./Navbar";
 import "../styles/Header.css";
 import JobSearchBar from "./JobSearchBar";
+import NavBar from "./Navbar";
 
 const Header = () => {
   return (
     <header className="site-header">
       <Topbar />
-      <Navbar />
+      <NavBar />
       <JobSearchBar />
     </header>
   );

@@ -1,0 +1,48 @@
+.edit-company-page {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-company-page h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #0073e6;
+    text-align: center;
+  }
+  
+  .edit-company-form .ant-form-item-label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .edit-company-form .ant-input,
+  .edit-company-form .ant-select,
+  .edit-company-form .ant-upload {
+    width: 100%;
+  }
+  
+  .edit-company-form .ant-btn-primary {
+    background: #0073e6;
+    border-color: #0073e6;
+  }
+  
+  .edit-company-form .ant-btn-primary:hover {
+    background: #005bb5;
+    border-color: #005bb5;
+  }
+  
+  .edit-company-form .ant-spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .edit-company-form .ant-upload-select {
+    display: flex;
+    justify-content: center;
+  }

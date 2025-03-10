@@ -1,0 +1,104 @@
+/* Toàn bộ container */
+.employer-register-container {
+    
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  
+
+  
+  .employer-hotline,
+  .employer-email {
+    margin-right: 10px;
+  }
+  
+  /* Nội dung chính */
+  .employer-main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  /* Tiêu đề trang */
+  .employer-title {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  /* Bố cục 2 cột */
+  .employer-content-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  
+  /* Cột trái: Form */
+  .register-form-column {
+    flex: 1 1 600px;
+    background-color:transparent;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  /* Nút submit form */
+  .register-submit-btn {
+    background-color: #0073e6;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  .register-submit-btn:hover {
+    background-color: #005bb5;
+  }
+  
+  /* Cột phải: Thông tin */
+  .employer-info-column {
+    flex: 1 1 300px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+  }
+  
+  .info-title {
+    color: #ff6600;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .info-list {
+    list-style: none;
+    padding-left: 0;
+    line-height: 1.8;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  .check-icon {
+    color: #ff6600;
+    margin-right: 8px;
+    font-size: 16px;
+  }
+  
+  .info-paragraph {
+    margin-top: 15px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  /* Ẩn job-search-container khi ở trang EmployerRegisterPage */
+.employer-register-page .job-search-container {
+    display: none !important;
+  }
+  

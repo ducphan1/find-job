@@ -1,0 +1,175 @@
+/* Container chung, gồm SortBar + Danh sách job */
+.joblist-container {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 20px;
+
+  width: 900px;
+  margin-left: 130px;
+ 
+}
+
+/* SortBar (phần lọc công việc ở trên) */
+.sort-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.job-info1{
+  margin-left: 50px;
+}
+
+/* Text “Tìm thấy XXX việc làm...” */
+.total-jobs {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Nhóm radio + icon */
+.sort-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.sort-label {
+  color: #555;
+  font-size: 14px;
+}
+
+.sort-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.sort-option input[type="radio"] {
+  margin-right: 3px;
+  cursor: pointer;
+}
+
+.sort-icon {
+  color: #999;
+  margin-right: 3px;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+/* Khi radio checked => icon xanh */
+.sort-option input[type="radio"]:checked + .sort-icon {
+  color: #0073b1;
+}
+
+.sort-option:hover .sort-icon {
+  color: #0073b1;
+}
+
+/* Nếu không có job */
+.no-job-text {
+  padding: 15px;
+  font-style: italic;
+  color: #777;
+}
+
+/* Danh sách job */
+.job-list-latest {
+  min-height: 400px; /* Tùy bạn */
+}
+
+/* Mỗi job item (3 dòng text) */
+.job-item-latest {
+  position: relative;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+}
+
+.job-item-latest:last-child {
+  border-bottom: none;
+}
+
+/* Logo */
+.job-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+/* Dòng 1: Tiêu đề + NEW */
+.job-title-latest {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.job-new-badge {
+  display: inline-block;
+  background-color: #ff4d4f;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+/* Dòng 2: Tên công ty */
+.job-company-name {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+/* Dòng 3: lương, địa điểm, hạn, time => ngang */
+.job-meta-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 60px;
+  font-size: 14px;
+  color: #555;
+}
+
+.job-meta-line span {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Khoảng cách icon + text */
+}
+
+.job-salary {
+  color: #007bff;
+  font-weight: 500;
+}
+
+.job-location {
+  color: #ff7a00;
+  font-weight: 500;
+}
+
+.job-deadline {
+  color: #ff4d4f;
+  font-weight: 500;
+}
+
+.job-posttime {
+  color: #999;
+}
+
+/* Icon trái tim (lưu tin) */
+.save-icon {
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-top: 10px; /* Để icon xuống 1 chút so với top */
+}
+
+.save-icon:hover {
+  color: #ff4d4f;
+}

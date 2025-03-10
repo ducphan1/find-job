@@ -1,0 +1,35 @@
+.saved-jobs-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .saved-jobs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .saved-jobs-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .saved-jobs-table {
+    width: 100%;
+  }
+  
+  /* Đảm bảo cột không bị co quá nhỏ */
+  .ant-table-thead > tr > th {
+    background: #fafafa;
+    font-weight: 600;
+  }
+  
+  .ant-table-tbody > tr > td {
+    vertical-align: middle;
+  }

@@ -1,4 +1,3 @@
-// src/pages/ForgetPasswordPage.js
 import React from "react";
 import { Form, Input, Button } from "antd";
 import PublicLayout from "../layout/PublicLayout";
@@ -7,7 +6,6 @@ import "../styles/ForgetPasswordPage.css";
 const ForgetPasswordPage = () => {
   const onFinish = (values) => {
     console.log("Forget password values: ", values);
-    // Xử lý gửi yêu cầu đặt lại mật khẩu (gọi API)
   };
 
   return (

@@ -1,0 +1,71 @@
+/* Container tổng cho sidebar */
+.sidebar-filter {
+    width: 280px;              /* Chiều rộng */
+    background-color: #fff;    /* Nền trắng */
+    padding: 20px;
+    border-radius: 6px;        /* Bo góc */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+   position: absolute;
+    margin-top: -3876px;
+    margin-left: 1540px;
+  }
+  
+  /* Tiêu đề chính: BỘ LỌC NÂNG CAO */
+  .sidebar-filter h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+  }
+  
+  /* Tiêu đề nhỏ (Lọc theo mức lương, thời gian, trình độ...) */
+  .sidebar-filter h4 {
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+  }
+  
+  /* Tạo khoảng cách giữa các nhóm filter */
+  .sidebar-filter > div {
+    margin-bottom: 20px;
+  }
+  
+ /* Giúp checkbox/radio và text cùng dòng, canh giữa */
+.sidebar-filter .ant-checkbox-wrapper,
+.sidebar-filter .ant-radio-wrapper {
+  display: flex;         /* Hiển thị flex */
+  align-items: center;   /* Canh giữa theo trục dọc */
+  margin-bottom: 8px;    /* Khoảng cách giữa các item */
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+  
+  .sidebar-filter .ant-checkbox-checked .ant-checkbox-inner,
+  .sidebar-filter .ant-radio-checked .ant-radio-inner {
+    border-color: #0073b1;     /* Màu xanh khi check */
+    background-color: #0073b1; /* Màu xanh khi check */
+  }
+  
+  /* Hover hiệu ứng */
+  .sidebar-filter .ant-checkbox:hover .ant-checkbox-inner,
+  .sidebar-filter .ant-radio:hover .ant-radio-inner {
+    border-color: #0073b1;
+  }
+  
+  /* Tùy chỉnh label */
+  .sidebar-filter .ant-checkbox-wrapper span,
+  .sidebar-filter .ant-radio-wrapper span {
+    margin-left: 6px;
+  }
+  
+  /* Nếu muốn font-size to hơn */
+  .sidebar-filter .ant-checkbox-wrapper span,
+  .sidebar-filter .ant-radio-wrapper span {
+    font-size: 14px;
+    color: #333;
+  }
+  

@@ -1,231 +1,222 @@
+/* Modal tổng thể */
+.job-detail-modal2 .ant-modal-body {
+  padding: 0;
+  background-color: #fff;
+  max-height: 80vh; /* Giới hạn chiều cao tối đa */
+  overflow-y: auto; /* Thanh trượt chỉ trong modal */
+  overflow-x: hidden;
+}
 
-.job-detail-modal .ant-modal-body {
-    padding: 0;
-  }
-  
+/* Header */
+.job-detail-modal2 .job-header-section2 {
+  padding: 16px 24px;
+  background-color: #f5f7fa;
+  border-bottom: 1px solid #e8e8e8;
+}
 
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 24px 0;
-    border-bottom: 1px solid #eaeaea;
-  }
-  
-  .modal-header h2 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .job-actions-header {
-    display: flex;
-    gap: 8px;
-  }
-  
+.job-detail-modal2 .job-title2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-left: 22px;
+  width: 400px;
+}
 
-  .modal-body-content {
-    padding: 24px;
-  }
-  
-  .job-info {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 10px;
-  }
-  
-  .job-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    color: #777;
-    font-size: 14px;
-  }
-  
-  .job-meta span {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  
+.job-detail-modal2 .company-name2 {
+  font-size: 16px;
+  color: #555;
+  margin-top: 4px;
  
-  .modal-footer {
-    padding: 14px;
-    background-color: #f9f9f9;
-  }
-  
+}
 
-  .modal-footer .footer-section,
-  .modal-footer .footer-section1 {
-    border: 1px solid #0d06e5; 
-    padding: 16px;
-    border-radius: 4px;
-    background-color: #fff;
-    margin-bottom: 10px;
-  }
-  
-  .modal-footer h3 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #333;
-  }
-  
-  .modal-footer p {
-    margin-bottom: 4px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .step1 {
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  
-  .step-title {
-    font-weight: bold;
-    margin-right: 4px;
-    font-size: 14px;
-  }
-  
-  .step-guide {
-    margin-bottom: 8px;
-    color: #555;
-    font-size: 14px;
-  }
-  
-  .deadline-report {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .deadline-date {
-    color: #d9534f;
-    font-weight: bold;
-    font-size: 14px;
-  }
-  
-  .report-link {
-    color: #d9534f;
-    text-decoration: none;
-    font-size: 14px;
-  }
-  
-  .report-link:hover {
-    text-decoration: underline;
-  }
-  
-  .related-jobs h3 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #333;
-  }
-  
-  .related-jobs ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .related-jobs li {
-    margin-bottom: 4px;
-    font-size: 14px;
-  }
-  
-  .related-jobs li a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .related-jobs li a:hover {
-    text-decoration: underline;
-  }
- 
-  .ant-card {
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    box-shadow: none;
-  }
-  
-  .ant-card-head {
-    border-bottom: 1px solid #eaeaea;
-    background-color: #fafafa;
-  }
-  
-  .ant-card-head-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .ant-card-body {
-    padding: 16px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .ant-card ul {
-    padding-left: 16px;
-    margin: 0;
-  }
-  
-  .ant-card ul li {
-    margin-bottom: 8px;
-    font-size: 14px;
-    color: #555;
-  }
-  
+.job-detail-modal2 .company-address2 {
+  font-size: 14px;
+  color: #888;
+}
 
-  .company-jobs-card ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .company-jobs-card ul li {
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    padding: 8px;
-    margin-bottom: 8px;
-  }
-  
-  .company-jobs-card ul li .job-title {
-    display: block;
-    font-size: 15px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 4px;
-  }
-  
-  .company-jobs-card ul li .job-meta-details {
-    display: flex;
-    gap: 16px;
-    font-size: 14px;
-    color: #777;
-  }
-  
+.job-detail-modal2 .company-logo2 {
+  width: 140px;
+  height: 140px;
+  border: 1px solid #ddd;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .company-jobs-card ul li .job-meta-details span {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+/* Nút hành động */
+.job-detail-modal2 .header-actions-col2 {
+  text-align: right;
+}
 
-.company-actions-box {
-    margin-bottom: 16px;
-  }
-  
-  .job-meta-details{
-    display: flex;
-    gap: 6px;
-  }
- 
-  
+.job-detail-modal2 .header-actions2 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+}
 
-  
+.job-detail-modal2 .apply-button2 {
+  background-color: #1890ff;
+  border-color: #1890ff;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.job-detail-modal2 .apply-button2:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+.job-detail-modal2 .save-button2 {
+  background-color: #fff;
+  border-color: #d9d9d9;
+  color: #1a1a1a;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.job-detail-modal2 .save-button2:hover {
+  background-color: #f0f0f0;
+  border-color: #bfbfbf;
+}
+
+.job-detail-modal2 .certified-stamp2 {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.job-detail-modal2 .certified-stamp2.unverified2 {
+  background-color: #fff1f0;
+  color: #ff4d4f;
+  border: 1px solid #ff4d4f;
+  width: 100px;
+  text-wrap: nowrap;
+  height: 22px;
+}
+
+/* Thông tin tổng quan */
+.job-detail-modal2 .job-summary-section2 {
+  padding: 16px 24px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  margin: 16px 24px;
+  font-size: 14px;
+  color: #666;
+}
+
+.job-detail-modal2 .job-summary-section2 strong {
+  color: #1a1a1a;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.job-detail-modal2 .job-summary-section2 .anticon {
+  margin-right: 8px;
+  color: #1890ff;
+}
+
+/* Nội dung chính */
+.job-detail-modal2 h3 {
+  font-size: 18px;
+  color: #1a1a1a;
+  margin: 16px 24px 12px;
+  font-weight: 600;
+}
+
+.job-detail-modal2 div {
+  padding: 0 24px 16px;
+  color: #555;
+}
+
+/* Card công ty */
+.job-detail-modal2 .company-info-card2 {
+  margin: 16px 0;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.job-detail-modal2 .company-info-card2 .ant-card-head {
+  background-color: #f0f5ff;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.job-detail-modal2 .company-info-card2 .ant-card-head-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.job-detail-modal2 .company-info-card2 .ant-card-body {
+  font-size: 14px;
+  color: #555;
+  padding: 16px;
+}
+
+.job-detail-modal2 .company-info-card2 .anticon {
+  margin-right: 8px;
+  color: #1890ff;
+}
+
+/* Google map */
+.job-detail-modal2 .map-wrapper2 {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.job-detail-modal2 .map-link2 {
+  display: block;
+  margin-top: 8px;
+  color: #1890ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.job-detail-modal2 .map-link2:hover {
+  text-decoration: underline;
+  color: #40a9ff;
+}
+
+/* Danh sách công việc cùng công ty */
+.job-detail-modal2 .related-job-item2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.job-detail-modal2 .related-job-item2:last-child {
+  border-bottom: none;
+}
+
+.job-detail-modal2 .related-job-info2 {
+  flex: 1;
+}
+
+.job-detail-modal2 .related-job-info2 h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.job-detail-modal2 .related-job-info2 p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.job-detail-modal2 .view-detail-button2 {
+  color: #1890ff;
+  font-weight: 500;
+}
+
+.job-detail-modal2 .view-detail-button2:hover {
+  color: #40a9ff;
+}

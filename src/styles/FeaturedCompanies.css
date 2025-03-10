@@ -57,35 +57,3 @@
 }
 
 
-.latest-job-card {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.2s ease-in-out;
-}
-
-.latest-job-card:hover {
-    transform: scale(1.05);
-}
-
-.latest-job-card img {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-    margin-bottom: 10px;
-}
-
-.latest-job-card p {
-    font-size: 14px;
-    color: #555;
-}
-
-.latest-job-card .company-location {
-    font-size: 14px;
-    color: #555;
-    margin-top: 5px;
-}

@@ -4,20 +4,21 @@ body, html {
 
 .homepage {
   margin-left: 30px;
+  margin-top: 20px;
 }
 
 .slick-slider {
   width: 100%;
   max-width: 1500px; 
-  margin: auto;
+  margin-left: 120px;
 }
 
 .slick-list {
-  overflow: hidden !important;
+  overflow: visible !important; /* Đảm bảo phần vượt ra ngoài không bị cắt */
 }
 
-.homepage h2{
-  margin-left: 540px;
+.homepage h2 {
+  margin-left: 640px;
   font-size: 30px;
 }
 
@@ -26,8 +27,9 @@ body, html {
   width: 100%;
   max-width: 1250px;
   margin: auto;
-  overflow: hidden;
+  overflow: visible; /* Đảm bảo phần vượt ra ngoài không bị cắt */
   border-radius: 10px;
+  padding-bottom: 60px; /* Tạo không gian cho phần vượt ra ngoài của recruiter-info */
 }
 
 .recruiter-image {
@@ -36,11 +38,13 @@ body, html {
   object-fit: cover;
   border-radius: 10px;
   display: block;
+  position: relative; /* Đặt làm tham chiếu cho z-index */
+  z-index: 1; /* Đặt dưới recruiter-info */
 }
 
 .recruiter-info {
   position: absolute;
-  bottom: 5px;
+  bottom: 20px; /* Đẩy xuống để một nửa nằm ngoài slide */
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
@@ -51,7 +55,8 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 10;
+  z-index: 10; /* Đặt trên recruiter-image */
+  min-height: 100px; /* Đảm bảo chiều cao đủ để hiển thị một nửa trong và ngoài */
 }
 
 .recruiter-logo {
@@ -67,6 +72,13 @@ body, html {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+}
+
+.recruiter-job-info h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
 }
 
 .job-list-columns {
@@ -97,6 +109,7 @@ body, html {
   font-size: 16px;
   cursor: pointer;
   transition: background 0.3s ease;
+  text-decoration: none; /* Đảm bảo không có gạch chân cho link */
 }
 
 .recruiter-btn:hover {
@@ -105,14 +118,15 @@ body, html {
 
 .custom-dots {
   position: absolute;
-  top: calc(100% + 20px);
-  left: 50%;
-  transform: translateX(1%);
+  top: calc(100% - 30px); /* Điều chỉnh vị trí dots để không bị che */
+  left: 42%;
+  transform: translateX(-50%);
   display: flex;
   gap: 10px;
   list-style: none;
   margin: 0;
   padding: 8px 12px;
+ 
 }
 
 .custom-dots li button {
@@ -135,7 +149,7 @@ body, html {
   display: flex;
   justify-content: center;
   gap: 30px;
-  margin-top: 60px;
+  margin-top: 100px; /* Tăng khoảng cách để tránh overlap với recruiter-info */
   max-width: 1250px;
   margin-left: 145px;
   margin-right: auto;

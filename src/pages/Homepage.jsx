@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { message } from "antd";
+
 import PublicLayout from "../layout/PublicLayout";
 import "../styles/HomePage.css";
-import image1 from "../assets/triviet.jpg";
-import image2 from "../assets/hungphuc.jpg";
-import logo1 from "../assets/logotriviet.jpg";
-import logo2 from "../assets/logohungphuc.jpg";
 import {
   faFileCircleCheck,
   faClipboardList,
@@ -12,39 +11,10 @@ import {
   faRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import RecruiterCarousel from "../components/RecruiterCarousel";
-import FeatureSection from "../components/FeatureSection";
+
 import JobListings from "../components/JobListings";
 import FeaturedCompanies from "../components/FeaturedCompanies";
 import LatestCandidates from "../components/LatestCandidates";
-
-const recruiters = [
-  {
-    id: 1,
-    company: "CÔNG TY TNHH QUỐC TẾ TRI-VIET (100% VỐN ĐẦU TƯ NHẬT BẢN)",
-    logo: logo1,
-    image: image1,
-    address: "Lô 2-9A, KCN Trà Nóc II, P. Phước Thới, Q. Ô Môn, TP. Cần Thơ",
-    jobs: [
-      "Nhân Viên Nhân Sự",
-      "Nhân Viên QA",
-      "Nhân Viên Thiết Kế Mẫu Rập",
-      "Nhân Viên Xuất Nhập Khẩu",
-    ],
-  },
-  {
-    id: 2,
-    company: "CÔNG TY TNHH MỘT THÀNH VIÊN HÙNG PHÚC",
-    logo: logo2,
-    image: image2,
-    address:
-      "Lô 2 - 9A2, Đường số 10, KCN Trà Nóc 2, Phước Thới, Ô Môn, Cần Thơ",
-    jobs: [
-      "Kỹ Sư Nuôi Trồng Thủy Sản",
-      "Thống Kê Vùng Nuôi",
-      "Nhân Viên Bảo Trì, Lắp Đặt Camera",
-    ],
-  },
-];
 
 const features = [
   {
@@ -64,13 +34,64 @@ const features = [
 ];
 
 const HomePage = () => {
+  const [slides, setSlides] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+
+  // Hàm lấy danh sách slide
+  const fetchSlides = async () => {
+    try {
+      console.log("Fetching slides from API:", `${API_URL}/public-slides`);
+      const response = await axios.get(`${API_URL}/public-slides`, {
+        headers: {
+          "Cache-Control": "no-cache", // Tránh cache từ browser
+        },
+      });
+      console.log("Slides received:", response.data);
+      setSlides(response.data);
+      setError(null);
+    } catch (err) {
+      setError(err.response?.data?.message || "Lỗi khi tải danh sách slide");
+      console.error("Error fetching slides:", err.response?.data || err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSlides();
+
+    const intervalId = setInterval(fetchSlides, 30000);
+
+    return () => clearInterval(intervalId);
+  }, [API_URL]);
+
+  const handleRefresh = async () => {
+    setLoading(true);
+    await fetchSlides();
+    message.success("Đã làm mới danh sách slide!");
+  };
+
+  if (loading) return <div>Đang tải...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <PublicLayout>
       <div className="homepage">
-        <h2 className="homepage-title">NHÀ TUYỂN DỤNG HÀNG ĐẦU</h2>
-        <RecruiterCarousel recruiters={recruiters} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h2 className="homepage-title">CÔNG TY NỔI BẬT</h2>
+        </div>
+        <RecruiterCarousel slides={slides} />
       </div>
-      <FeatureSection features={features} />
+
       <JobListings />
       <FeaturedCompanies />
       <LatestCandidates />
